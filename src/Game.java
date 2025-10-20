@@ -21,20 +21,46 @@ public class Game {
     private void play(){
         Scanner scanner = new Scanner(System.in);
         display("Üdv a várkalandban");
-        display(player.getScene().getDescription());
+
 
         // Ez a játék ciklus
         while (true){
+            display(".......................................................................");
+            display(player.getScene().getDescription());
+            display(">");
+
             String input = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
-            String command = input;
+            String[] words = input.split(" ");
+
+            String command = words[0];
+
+            String subject = words.length > 1 ? words[1] : "";
+
 
             switch (command){
+                case "menj":
+                    Direction direction = Direction.fromString(subject);
+                    moveplayer(direction);
+
+
+                    break; // ha nincs break akkor tovább megy a következő ágra
                 case "kilep":
                     display("Köszi a játékot!");
                     scanner.close();
                     return;
+                default:
+                    display("Nem értem a parancsot");
+                    break;
             }
         }
+    }
+
+    private void moveplayer(Direction direction) {
+        Scene nextscene = player.getScene().getExit(direction);
+        if (nextscene == null){
+            display("Nem mehetsz arra");
+        }
+        player.setScene(nextscene);
     }
 
     private void display(String message) {
