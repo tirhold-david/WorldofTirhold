@@ -1,5 +1,4 @@
 public enum Direction {
-
     ESZAK("észak"),
     DEL("dél"),
     NYUGAT("nyugat"),
